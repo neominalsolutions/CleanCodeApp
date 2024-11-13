@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace CleanCode.Domain.Aggregates
 {
   // ProductService ile Cohesion sağladık. (Product,ProductRepo,UnitOfWork)
-  public class ProductService
+  public class ProductService:IProductService
   {
     // Dependecy Inversion
     private IProductRepository _productRepository; // EFProductRepo
