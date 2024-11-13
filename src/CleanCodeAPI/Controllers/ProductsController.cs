@@ -27,7 +27,7 @@ namespace CleanCodeAPI.Controllers
     }
 
 
-    [HttpPut("/increasePrice")]
+    [HttpPut("increasePrice")]
     public async Task<IActionResult> IncreasePrice([FromBody] IncreaseProductPrice request)
     {
 
