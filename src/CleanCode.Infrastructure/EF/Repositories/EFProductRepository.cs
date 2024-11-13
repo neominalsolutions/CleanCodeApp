@@ -29,7 +29,8 @@ namespace CleanCode.Infrastructure.EF.Repositories
 
     public Product FindById(Guid Id)
     {
-      throw new NotImplementedException();
+      // dbContext.Product.Find(Id);
+      return Product.Create("P-1", 15, 15);
     }
 
     public void Update(Product entity)

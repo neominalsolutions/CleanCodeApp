@@ -2,6 +2,7 @@ using CleanCode.Application.Features.Products.Handlers;
 using CleanCode.Domain.Aggregates;
 using CleanCode.Infrastructure.EF.Repositories;
 using CleanCode.Infrastructure.EF.UnitOfWorks;
+using CleanCode.Infrastructure.Mongo;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,17 +18,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddKeyedScoped<IProductService,ProductService>("default");
 builder.Services.AddKeyedScoped<IProductService, S400ProductService>("s400");
 
-builder.Services.AddScoped<IProductRepository, EFProductRepository>();
-builder.Services.AddScoped<IUnitOfWork, EFUnitOfWork>();
+builder.Services.AddScoped<IProductRepository, MongoProductRepository>();
+builder.Services.AddScoped<IUnitOfWork, MongoUnitOfWork>();
 
 var applicationAssembly = Assembly.GetAssembly(typeof(CreateProductRequestHandler));
-
 var domainAssembly = Assembly.GetAssembly(typeof(ProductPriceChangeHandler));
 
 // Reflection ile ilgili assembly 
 builder.Services.AddMediatR(config =>
 {
-  config.RegisterServicesFromAssemblies(applicationAssembly);
+  config.RegisterServicesFromAssemblies(applicationAssembly,domainAssembly);
 });
 
 var app = builder.Build();
