@@ -13,26 +13,31 @@ namespace CleanCode.Application.Features.Products.Handlers
   // Single Responsibity => Bu sınıfın tek sorumluluğu Product nesnesini s400 ve dbye kaydetmek.
   public class CreateProductRequestHandler : IRequestHandler<CreateProductRequest>
   {
-    private readonly IServiceProvider _serviceProvider;
-
-    public CreateProductRequestHandler(IServiceProvider serviceProvider)
+   
+    private readonly IProductService _productService;
+    private readonly IProductService _s400Service;
+    public CreateProductRequestHandler(
+      [FromKeyedServices("default")] IProductService productService, 
+      [FromKeyedServices("s400")] IProductService s400Service)
     {
-      _serviceProvider = serviceProvider;
+      _productService = productService;
+      _s400Service = s400Service;
+
     }
 
     public Task Handle(CreateProductRequest request, CancellationToken cancellationToken)
     {
       var product = Product.Create(request.Name, request.Price, request.Stock);
 
-      var defaultProductService = _serviceProvider.GetKeyedService<IProductService>("default");
+    
 
-      ArgumentNullException.ThrowIfNull(defaultProductService);
-      defaultProductService.Create(product);
+      ArgumentNullException.ThrowIfNull(_productService);
+      _productService.Create(product);
 
-      var s400Service = _serviceProvider.GetKeyedService<IProductService>("s400");
 
-      ArgumentNullException.ThrowIfNull(s400Service);
-      s400Service.Create(product);
+
+      ArgumentNullException.ThrowIfNull(_s400Service);
+      _s400Service.Create(product);
 
       return Task.CompletedTask;
     }
