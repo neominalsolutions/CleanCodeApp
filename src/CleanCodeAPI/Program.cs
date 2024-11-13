@@ -15,6 +15,8 @@ builder.Services.AddKeyedScoped<IProductService, S400ProductService>("s400");
 
 var app = builder.Build();
 
+app.Services.GetKeyedService<IProductService>("default");
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CleanCode.Application\CleanCode.Application.csproj" />
     <ProjectReference Include="..\CleanCode.Domain\CleanCode.Domain.csproj" />
   </ItemGroup>
 
